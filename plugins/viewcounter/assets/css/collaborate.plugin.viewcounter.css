@@ -20,12 +20,13 @@ body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status
     text-align: center;
     border-radius: 13px !important;
     height: 20px;
-    line-height: 20px;
+    line-height: 19px;
     margin: -4px 0px 0px 10px;
     font-size: var(--collaborate-mod-viewcounter-fontsize);
     color: #FFF;
     font-weight: bold;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *,
@@ -33,6 +34,8 @@ body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status
     padding: 0px 7px;
     display: inline-block;
     vertical-align: top;
+    height: 20px;
+    white-space: nowrap;
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *:empty,
