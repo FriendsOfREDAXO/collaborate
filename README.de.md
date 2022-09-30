@@ -1,6 +1,6 @@
 # Collaborate - Addon für paralleles Arbeiten im Backend & mehr
 
-![Screenshot](https://github.com/FriendsOfREDAXO/collaborate/blob/assets/collaborate.png?raw=true)
+![Screenshot](https://github.com/FriendsOfREDAXO/collaborate/blob/main/assets/collaborate.png)
 
 Collaborate ist ein REDAXO Addon, welches primär entwickelt wurde, um **kollisionsfreie, parallele Zusammenarbeit** im Backend zu ermöglichen.
 Der Kern des AddOns ist ein unabhängig von der REDAXO-Instanz (als Website) arbeitender Dienst, der permanent läuft und einen **Websocket Server**
