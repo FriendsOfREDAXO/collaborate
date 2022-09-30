@@ -1,0 +1,12 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Collaborate\\": "src"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.4",
+        "symfony/yaml": "^5.3.6",
+        "symfony/console": "^5.1"
+    }
+}

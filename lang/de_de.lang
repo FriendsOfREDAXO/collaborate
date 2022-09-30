@@ -1,0 +1,31 @@
+# GENERAL LABELS
+collaborate_name = Collaborate
+collaborate_title = Collaborate
+collaborate_subtitle = Team-Arbeit für Backend-Nutzer
+collaborate_settings = Einstellungen
+collaborate_plugins = Erweiterungen
+collaborate_since = seit
+collaborate_before = vor
+collaborate_user = Nutzer
+collaborate_other_user = anderer Benutzer
+collaborate_other_user2 = anderem Benutzer
+collaborate_dataset = Datensatz
+
+# HEADER BOX
+collaborate_header_status = Status Team-Server
+collaborate_header_status_ONLINE = online
+collaborate_header_status_OFFLINE = offline
+collaborate_header_status_CLOSED = beendet
+collaborate_header_status_CONNECTING = Verbinde zum Server ...
+collaborate_header_user_count = Benutzer online
+collaborate_header_refresh = neue Verbindung versuchen
+collaborate_header_loggedin_since = angemeldet seit:
+
+# ACTIVITY
+collaborate_activity_edit = bearbeitet von
+collaborate_activity_blocked = Dieser Datensatz <b>[ID %s]</b> wird aktuell von einem anderen Benutzer bearbeitet:
+collaborate_activity_blocked_back = zurück zur Übersicht
+
+# ERRORS
+collaborate_error_install_daemon_config = Die init.d-Konfigurationsdatei fehlt. Installation abgebrochen.
+collaborate_error_install_supervisor_config = Die supervisor-Konfigurationsdatei fehlt. Installation abgebrochen.

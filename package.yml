@@ -1,0 +1,28 @@
+package: collaborate
+version: '1.0.0 alpha'
+author: Friends Of REDAXO
+pjax: true
+#supportpage: https://github.com/bitshiftersgmbh/collaborate
+
+page:
+    title: translate:name
+    perm: collaborate[]
+    icon: rex-icon fa fa-users
+    pjax: true
+    subpages:
+        #settings:
+        #   title: translate:collaborate_settings
+         #  icon: rex-icon fa fa-cog
+        plugins:
+            title: translate:collaborate_plugins
+            icon: rex-icon fa fa-toggle-right
+
+requires:
+    redaxo: ^5.12
+
+console_commands:
+    collaborate: rex_collaborate_console 
+
+websocket-server-port: 6789
+websocket-client-port: 443
+websocket-path: 'wss'

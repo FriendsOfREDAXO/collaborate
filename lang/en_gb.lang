@@ -1,0 +1,31 @@
+# GENERAL LABELS
+collaborate_name = Collaborate
+collaborate_title = Collaborate
+collaborate_subtitle = Team Work for backend users
+collaborate_settings = Settings
+collaborate_plugins = Plugins
+collaborate_since = since
+collaborate_before = before
+collaborate_user = user
+collaborate_other_user = other user
+collaborate_other_user2 = other user
+collaborate_dataset = record
+
+# HEADER BOX
+collaborate_header_status = Status Team-Server
+collaborate_header_status_ONLINE = online
+collaborate_header_status_OFFLINE = offline
+collaborate_header_status_CLOSED = closed
+collaborate_header_status_CONNECTING = Connecting zum Server ...
+collaborate_header_user_count = user online
+collaborate_header_refresh = try reconnect
+collaborate_header_loggedin_since = logged in since:
+
+# ACTIVITY
+collaborate_activity_edit = edited by
+collaborate_activity_blocked = This record <b>[id %s]</b> is currently being edited by another user:
+collaborate_activity_blocked_back = back to overview
+
+# ERRORS
+collaborate_error_install_daemon_config = The init.d configuration file is missing. Installation aborted.
+collaborate_error_install_supervisor_config = The supervisor configuration file is missing. Installation aborted.

@@ -1,0 +1,17 @@
+package: collaborate/yform
+version: '1.0.0 alpha'
+author: Friends Of REDAXO
+pjax: true
+
+requires:
+    packages:
+        yform: '>=4.0.0'
+        yform/manager: '>=4.0.0'
+
+# defines scopes for websocket up- and down streams
+# 2 = frontend & backend
+# 1 = frontend
+# 0 = backend
+# -1 = no automatic embedding
+upstream-scope: 0
+downstream-scope: 0

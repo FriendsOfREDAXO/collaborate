@@ -1,0 +1,61 @@
+/**
+ * vars
+ */
+:root {
+    --collaborate-mod-viewcounter-main-color: var(--collaborate-connecting);
+    --collaborate-mod-viewcounter-children-color: #00AFD366;
+    --collaborate-mod-viewcounter-fontsize: 11px;
+}
+
+/* preparing structure tables to show blocked datasets */
+
+body#rex-page-structure section.rex-page-section table.table tbody tr {
+    position: relative;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter,
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 13px !important;
+    height: 20px;
+    line-height: 20px;
+    margin: -4px 0px 0px 10px;
+    font-size: var(--collaborate-mod-viewcounter-fontsize);
+    color: #FFF;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *,
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > * {
+    padding: 0px 7px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *:empty,
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > *:empty {
+    display: none;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter .this,
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter .this {
+    background-color: var(--collaborate-mod-viewcounter-main-color);
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter .children,
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter .children {
+    background-color: var(--collaborate-mod-viewcounter-children-color);
+}
+
+/* integration for "structure" plugin > show on right side of overlay */
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status.collaborate-locked span.collaborate-viewcounter {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    margin-top: 0px !important;
+    z-index: 7;
+}

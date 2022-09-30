@@ -1,0 +1,114 @@
+/**
+ * vars
+ */
+
+:root {
+    --collaborate-mod-structure-blocked-row-color-user: var(--collaborate-username-color);
+    --collaborate-mod-structure-blocked-row-color: #666;
+    --collaborate-mod-structure-blocked-row-fontsize: 12px;
+}
+
+/* preparing structure tables to show blocked datasets */
+
+body#rex-page-structure section.rex-page-section table.table tbody tr {
+    position: relative;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.collaborate-locked td.collaborate-lock-cell {
+    position: static;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.collaborate-locked td div.collaborate-lock-info {
+    display: block;
+    position: absolute;
+    inset: 1px;
+    text-align: left;
+    padding: 10px 15px;
+    font-size: var(--collaborate-mod-structure-blocked-row-fontsize);
+    background-color: rgba(255,255,255,0.9);
+    z-index: 2;
+    color: var(--collaborate-mod-structure-blocked-row-color) !important;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.collaborate-locked td div.collaborate-lock-info > span,
+body#rex-page-structure section.rex-page-section table.table tbody tr.collaborate-locked td div.collaborate-lock-info > span > span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.collaborate-locked td div.collaborate-lock-info .value {
+    color: var(--collaborate-mod-structure-blocked-row-color-user);
+    margin: 0px 5px;
+    font-weight: bold;
+}
+
+body#rex-page-structure section.rex-page-section table.table tbody tr.collaborate-locked td div.collaborate-lock-info .since {
+    padding-left: 10px;
+    margin-left: 5px;
+    border-left: 1px solid var(--collaborate-mod-structure-blocked-row-color);
+}
+
+/* blocking details entry */
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit {
+    position: relative;
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit form .btn-toolbar a,
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit form .btn-toolbar button {
+    visibility: hidden;
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit:before {
+    content: '';
+    display: block;
+    position: absolute;
+    inset: 0px;
+    bottom: -5px;
+    background-color: rgba(255,255,255,0.8);
+    z-index: 6;
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit > .row {
+    filter: blur(1px);
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit .collaborate-lock-edit-info {
+    position: absolute;
+    left: 50%;
+    top: 100px;
+    text-align: center;
+    max-width: 400px;
+    z-index: 6;
+    transform: translateX(calc(-50% - 10px));
+    padding: 20px;
+    background-color: #FFF;
+    box-shadow: 0px 0px 30px 15px rgb(0 0 0 / 5%);
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit .collaborate-lock-edit-info .user {
+    color: var(--collaborate-mod-structure-blocked-row-color-user);
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit .collaborate-lock-edit-info .since {
+    display: block;
+    color: #999;
+    font-size: 14px;
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit .collaborate-lock-edit-info .since .value {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+body#rex-page-content-edit section.rex-main-frame.collaborate-lock-edit .collaborate-lock-edit-info a.back {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+body#rex-page-content-edit .rex-nav-btn.rex-nav-language.collaborate-lock-edit {
+    visibility: hidden;
+    opacity: 0;
+}

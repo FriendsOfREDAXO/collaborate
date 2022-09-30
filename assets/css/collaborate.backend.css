@@ -1,0 +1,333 @@
+/**
+ * vars
+ */
+
+:root {
+    --collaborate-offline: #BB0000;
+    --collaborate-online: #00AA00;
+    --collaborate-connecting: #00AFD3;
+    --collaborate-default-transition: all 300ms ease-in-out;
+    --collaborate-username-color: #e56200;
+}
+
+/* rex backend layout fixes ... */
+
+.navbar > .container-fluid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar > .container-fluid:before,
+.navbar > .container-fluid:after {
+    display: none;
+}
+
+.rex-is-logged-in .rex-nav-top .rex-nav-meta {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.navbar > .container-fluid > * {
+}
+
+/* collaborate header info box */
+
+.collaborate.header-box {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 30px 0 0;
+    padding: 0px 30px;
+    border-right: 1px solid #777;
+    user-select: none;
+    cursor: default;
+    position: relative;
+}
+
+.collaborate.header-box .status {
+    color: #DDD;
+    display: flex;
+    flex-direction: row;
+}
+
+.collaborate.header-box.expandable:not([data-users='0']) .status {
+    cursor: pointer;
+}
+
+.collaborate.header-box .status .indicator {
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #666;
+    align-self: center;
+    transition: var(--collaborate-default-transition);
+    text-align: center;
+    line-height: 16px;
+}
+
+.collaborate.header-box .status button.refresh {
+    margin-left: 15px;
+    line-height: 20px;
+    align-self: center;
+    outline: none !important;
+    transition: background-color 300ms ease-in-out;
+}
+
+.collaborate.header-box .status .sub-status {
+    color: #AAA;
+    opacity: 1;
+    font-size: 12px;
+    line-height: 16px;
+    max-height: 30px;
+    overflow: hidden;
+    /*transition: var(--collaborate-default-transition);*/
+}
+
+.collaborate.header-box .status .sub-status .since > span:not(.counter) {
+    padding-right: 5px;
+}
+
+.collaborate.header-box .status .sub-status .since > span.counter {
+    font-weight: bold;
+}
+
+.collaborate.header-box .status .user-count {
+    opacity: 0;
+    max-height: 0px;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden;
+    color: #DDD;
+}
+
+.collaborate.header-box[data-status="ONLINE"] .status .user-count {
+    transition: var(--collaborate-default-transition);
+}
+
+.collaborate.header-box .status .user-count .value {
+    font-weight: bold;
+    color: #FFF;
+}
+
+.collaborate.header-box .status .user-count .label {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color: #DDD;
+    padding: 0px;
+}
+
+/* status dependent stuff */
+
+.collaborate.header-box[data-status="CONNECTING"] .status .indicator {
+    background-color: var(--collaborate-connecting);
+}
+
+.collaborate.header-box[data-status="CONNECTING"] .status .indicator:before {
+    content: '\f021';
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    animation: rotating 800ms infinite linear;
+    font-size: 10px;
+    color: #FFF;
+    display: inline-block;
+}
+
+.collaborate.header-box[data-status="OFFLINE"] .status .indicator {
+    background-color: var(--collaborate-offline);
+}
+
+.collaborate.header-box[data-status="ONLINE"] .status .indicator {
+    background-color: var(--collaborate-online);
+}
+
+.collaborate.header-box[data-status="OFFLINE"] .status .sub-status > span:first-child:before {
+    content: attr(data-status-OFFLINE);
+}
+
+.collaborate.header-box[data-status="ONLINE"] .status .sub-status {
+    opacity: 0;
+    max-height: 0px;
+}
+
+.collaborate.header-box[data-status="CONNECTING"] .status .sub-status > span:first-child:before {
+    content: attr(data-status-CONNECTING);
+}
+
+.collaborate.header-box[data-status="CONNECTING"] .status .sub-status .since {
+    display: none;
+}
+
+.collaborate.header-box[data-status="ONLINE"] .status .sub-status > span:first-child:before {
+    content: attr(data-status-ONLINE);
+}
+
+.collaborate.header-box[data-status="CLOSED"] .status .sub-status > span:first-child:before {
+    content: attr(data-status-CLOSED);
+}
+
+.collaborate.header-box:not([data-status="CLOSED"]):not([data-status="OFFLINE"]) .status button.refresh {
+    visibility: hidden;
+}
+
+.collaborate.header-box[data-status="ONLINE"] .status .user-count {
+    opacity: 1;
+    max-height: 30px;
+}
+
+/* expandable user info box */
+
+.collaborate.header-box.expandable[data-users='0'] .user-info {
+    display: none !important;
+}
+
+.collaborate.header-box .user-info {
+    position: absolute;
+    top: calc(100% + 13px);
+    left: 20px;
+    box-shadow: 0 10px 62px 2px rgba(0,0,0,.2);
+    z-index: 6;
+    max-width: 500px;
+    display: none;
+    background-color: #FFF;
+    font-size: 14px;
+    right: auto;
+}
+
+.collaborate.header-box.show-info-box .user-info {
+    display: block;
+}
+
+.collaborate.header-box .user-info ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+.collaborate.header-box .user-info ul li {
+    padding: 10px;
+}
+
+.collaborate.header-box .user-info ul li > span {
+    display: block;
+}
+
+.collaborate.header-box .user-info ul li .username {
+    position: relative;
+    font-weight: bold;
+    color: var(--collaborate-username-color);
+}
+
+.collaborate.header-box .user-info ul li .loggedin-since {
+    color: #888;
+    font-size: 12px;
+}
+
+.collaborate.header-box .user-info ul li + li {
+    border-top: 1px solid #DDD;
+}
+
+/* page details (needs perm [user_locations] */
+
+.collaborate.header-box .page-details {
+    padding-top: 5px;
+    margin-top: 5px;
+    font-size: 11px;
+}
+
+.collaborate.header-box .page-details .page {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.collaborate.header-box .page-details .page > * {
+    display: inline-block;
+    flex: 1 1 auto;
+}
+
+.collaborate.header-box .page-details .page + .page {
+    margin-top: 5px;
+}
+
+.collaborate.header-box .page-details .page .index {
+    border-radius: 10px;
+    background-color: var(--collaborate-connecting);
+    color: #FFF;
+    font-weight: bold;
+    line-height: 16px;
+    height: 16px;
+    margin-right: 5px;
+    width: 16px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.collaborate.header-box .page-details .page .title {
+    color: #333;
+    flex-basis: 100%;
+}
+
+.collaborate.header-box .page-details .page .since {
+    align-self: flex-end;
+    margin-left: 20px;
+    color: #AAA;
+    flex-grow: 0;
+}
+
+.collaborate.header-box .as-success {
+    color: var(--collaborate-online);
+}
+
+.collaborate.header-box .as-warning {
+    color: var(--collaborate-username-color);
+}
+
+.collaborate.header-box .as-error {
+    color: var(--collaborate-offline);
+}
+
+.collaborate.header-box .as-highlight {
+    color: var(--collaborate-connecting);
+}
+
+
+/* anims */
+
+@-webkit-keyframes rotating {
+    from {
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotating {
+    from {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
