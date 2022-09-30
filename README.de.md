@@ -1,4 +1,4 @@
-# Collaborate - Addon für paralleles Arbeiten im Backend & mehr
+# Collaborate - Zusammenarbeit im Backend & mehr
 
 ![Screenshot](https://github.com/FriendsOfREDAXO/collaborate/blob/main/assets/collaborate.png)
 
