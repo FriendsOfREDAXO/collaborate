@@ -70,7 +70,7 @@ if (rex::isBackend() && $beUser instanceof rex_user) {
 
                 if (($content = rex_file::get($file)) && preg_match_all('/^collaborate_([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
                     foreach ($matches as $match) {
-                        if(!is_array($collaborateTranslations[$p->getName()])) {
+                        if(!isset($collaborateTranslations[$p->getName()])) {
                             $collaborateTranslations[$p->getName()] = [];
                         }
 
