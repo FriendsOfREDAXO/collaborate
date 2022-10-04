@@ -45,7 +45,13 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
     /**
      * @var int
      */
-    private $lastSendData = 0;
+    private int $lastSendDataTimestamp = 0;
+
+    /**
+     * storing last sent data
+     * @var array
+     */
+    private array $lastSendData = [];
 
     /**
      * @param CollaborateApplication $application
@@ -60,7 +66,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
         // refresh list periodically
         $application->registerLoop(function() use ($application, $name) {
             $this->refreshArticleList();
-            $application::echo(sprintf("%s: refreshing article list ... found %s articles over %s clangs", $name, count($this->articles), rex_clang::count(true)));
+            //$application::echo(sprintf("%s: refreshing article list ... found %s articles over %s clangs", $name, count($this->articles), rex_clang::count(true)));
         }, self::REFRESH_ARTICLE_LIST_AFTER, "{$name}_refresh_article_list");
     }
 
@@ -103,8 +109,9 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
      * @created 28.09.2022
      */
     private function sendViewcountToBackendusers() {
-        // prevent sending too much data too often
-        if(time() - $this->lastSendData < self::TICK_RATE) {
+        // prevent sending too much data too often (skip empty arrays on last call since they could be a temporary state between leaving one page an entering a new one)
+        if(time() - $this->lastSendDataTimestamp < self::TICK_RATE && count($this->lastSendData) > 0) {
+            CollaborateApplication::echo(sprintf("viewcounter: tick rate limit hit"));
             return;
         }
 
@@ -125,7 +132,8 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
             }
 
             // set last sent time
-            $this->lastSendData = time();
+            $this->lastSendDataTimestamp = time();
+            $this->lastSendData = $viewCountData;
         }
     }
 
@@ -198,6 +206,10 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                     // check if article is inside category/ies > create category entry if so
                     if(count($path) > 0 && $path[0] != $articleId) {
                         foreach($path as $parentId) {
+                            if($parentId == $articleId) {
+                                continue;
+                            }
+
                             if(!isset($viewCountData[$parentId])) {
                                 $viewCountData[$parentId] = [];
 
@@ -208,14 +220,18 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                             }
 
                             if($data['count_'.$article->getClangId()] > 0) {
-                                $viewCountData[$parentId]['children_'.$article->getClangId()]++;
-                                //CollaborateApplication::echo(sprintf("adding +1 to children for parent article %s (base article id: %s) | clang %s", $parentId, $articleId, $article->getClangId()));
+                                $viewCountData[$parentId]['children_'.$article->getClangId()] += $data['count_'.$article->getClangId()];
+//                                CollaborateApplication::echo(sprintf("adding +%s to children for parent article %s (base article id: %s) | clang %s",
+//                                    $data['count_'.$article->getClangId()], $parentId, $articleId, $article->getClangId()
+//                                ));
                             }
                         }
                     }
-                } elseif(in_array($articleId, $path) && $path[0] != $articleId && $data['count_'.$article->getClangId()] > 0) {
-                    $data['children_'.$article->getClangId()] += 1;
-                    //CollaborateApplication::echo(sprintf("adding +1 to children for article %s | clang %s", $articleId, $article->getClangId()));
+                } elseif(in_array($articleId, $path) && $path[count($path) - 1] != $articleId && $data['count_'.$article->getClangId()] > 0) {
+                    $data['children_'.$article->getClangId()] += $data['count_'.$article->getClangId()];
+//                    CollaborateApplication::echo(sprintf("adding +%s to children for article %s (path: %s) | clang %s",
+//                        $data['count_'.$article->getClangId()], $articleId, serialize($path), $article->getClangId()
+//                    ));
                 }
             }
         }
@@ -305,14 +321,14 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
         foreach($this->frontendClients as $userId => $pages) {
             foreach($pages as $pageUrl => $pageData) {
                 if ($client->resourceId == $pageData["connection"]->resourceId) {
-                    CollaborateApplication::echo(sprintf("viewcounter: deleting page '%s' of connection %s", $pageUrl, $client->resourceId));
+                    //CollaborateApplication::echo(sprintf("viewcounter: deleting page '%s' of connection %s", $pageUrl, $client->resourceId));
                     unset($this->frontendClients[$userId][$pageUrl]);
     
                     // check if FE client is left without pages
                     if(count($this->frontendClients[$userId]) == 0) {
                         // clear FE client
                         unset($this->frontendClients[$userId]);
-                        CollaborateApplication::echo(sprintf("viewcounter: connection %s deletd > no pages left", $client->resourceId));
+                        //CollaborateApplication::echo(sprintf("viewcounter: connection %s deleted > no pages left", $client->resourceId));
                     }
                     
                     $this->sendViewcountToBackendusers();

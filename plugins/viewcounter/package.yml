@@ -1,5 +1,5 @@
 package: collaborate/viewcounter
-version: '1.0.0 alpha'
+version: '1.0.2 alpha'
 author: Friends Of REDAXO
 pjax: true
 
