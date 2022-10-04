@@ -27,6 +27,8 @@ body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
+    user-select: none;
+    cursor: default;
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *,

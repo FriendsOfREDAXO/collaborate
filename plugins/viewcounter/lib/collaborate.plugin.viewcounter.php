@@ -21,9 +21,9 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
     const PREVENT_RELOAD = true;
 
     /**
-     * server tick rate
+     * server tick rate (0 = disabled for now ...)
      */
-    const TICK_RATE = 1;
+    const TICK_RATE = 0;
 
     /**
      * article list refresh rate [sec]
