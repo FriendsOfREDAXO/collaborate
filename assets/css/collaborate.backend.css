@@ -49,7 +49,7 @@
 }
 
 .collaborate.header-box .status {
-    color: #DDD;
+    color: #FFF;
     display: flex;
     flex-direction: row;
 }
@@ -68,6 +68,7 @@
     transition: var(--collaborate-default-transition);
     text-align: center;
     line-height: 16px;
+    border: 1px solid #FFFFFF;
 }
 
 .collaborate.header-box .status button.refresh {
