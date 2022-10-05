@@ -1,2 +1,3 @@
 # viewcounter
-collaborate_counter_column = Aufrufe
+collaborate_counter_tooltip = aktuelle Seitenaufrufe dieses Artikels im Frontend
+collaborate_counter_all_tooltip = aktuelle Seitenaufrufe im Frontend

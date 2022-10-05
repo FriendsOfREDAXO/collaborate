@@ -2,32 +2,44 @@
 $addon = rex_addon::get('collaborate');
 
 // write daemon config
-$daemonConfigPath = $addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate.service";
+$daemonConfigPath = $addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-dummy.service";
 
 if(!file_exists($daemonConfigPath)) {
     throw new rex_functional_exception($addon->i18n("error_install_daemon_config"));
 }
 
 $daemonConfigContent = rex_file::get($daemonConfigPath);
-
 $daemonConfigContent = str_replace("##COLLABORATE_INIT_SCRIPT_PATH##", $addon->getPath()."collaborate.server.php", $daemonConfigContent);
 $daemonConfigContent = str_replace("##COLLABORATE_SCRIPT_PATH##", $addon->getPath()."conf/collaborate.service", $daemonConfigContent);
 $daemonConfigContent = str_replace("##COLLABORATE_LOG_PATH##", $addon->getDataPath("collaborate.log"), $daemonConfigContent);
-$daemonConfigContent = str_replace("##PROJECT##", rex::getServerName(), $daemonConfigContent);
-$daemonConfigContent = str_replace("##FOO##", 'collaborate_websocket_'.rex_string::normalize(rex::getServerName()), $daemonConfigContent);
-rex_file::put($daemonConfigPath, $daemonConfigContent);
+$daemonConfigContent = str_replace("##COLLABORATE_PROJECT##", rex::getServerName(), $daemonConfigContent);
+$daemonConfigContent = str_replace("##COLLABORATE_BASENAME##", 'collaborate_websocket_'.rex_string::normalize(rex::getServerName()), $daemonConfigContent);
+$daemonConfigContent = str_replace("##COLLABORATE_LOGROTATE_PATH##", $addon->getPath("conf/collaborate-logrotate.conf"), $daemonConfigContent);
+rex_file::put($addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate.service", $daemonConfigContent);
 
+// set logrotate config
+$dummyLogrotatePath = $addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-logrotate-dummy.conf";
+
+if(!file_exists($dummyLogrotatePath)) {
+    throw new rex_functional_exception($addon->i18n("error_install_logrotate_config"));
+}
+
+$logrotateConfigContent = rex_file::get($dummyLogrotatePath);
+rex_file::put($addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-logrotate.conf",
+    str_replace("##COLLABORATE_LOG_PATH##", $addon->getDataPath("collaborate.log"), $logrotateConfigContent)
+);
 
 // set supervisord config
-$dummyConfigPath = $addon->getPath()."conf".DIRECTORY_SEPARATOR."supervisor-dummy.conf";
+$dummyConfigPath = $addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-supervisor-dummy.conf";
 
 if(!file_exists($dummyConfigPath)) {
     throw new rex_functional_exception($addon->i18n("error_install_supervisor_config"));
 }
 
 $svConfigContent = rex_file::get($dummyConfigPath);
-
-rex_file::put($addon->getPath()."conf".DIRECTORY_SEPARATOR."supervisor.conf", str_replace("##COLLABORATE_INIT_SCRIPT_PATH##", $addon->getPath()."collaborate.run.php", $svConfigContent));
+rex_file::put($addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-supervisor.conf",
+    str_replace("##COLLABORATE_INIT_SCRIPT_PATH##", $addon->getPath()."collaborate.run.php", $svConfigContent)
+);
 
 // create log file if not existing
 $logFile = $addon->getDataPath("collaborate.log");

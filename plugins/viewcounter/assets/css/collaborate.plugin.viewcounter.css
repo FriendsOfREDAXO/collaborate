@@ -14,7 +14,8 @@ body#rex-page-structure section.rex-page-section table.table tbody tr {
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter,
-body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter {
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter,
+nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
     display: inline-block;
     vertical-align: middle;
     text-align: center;
@@ -32,7 +33,8 @@ body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *,
-body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > * {
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > *,
+nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
     padding: 0px 7px;
     display: inline-block;
     vertical-align: top;
@@ -41,18 +43,29 @@ body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *:empty,
-body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > *:empty {
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > *:empty,
+nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter:empty {
     display: none;
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter .this,
-body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter .this {
+body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter .this,
+nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
     background-color: var(--collaborate-mod-viewcounter-main-color);
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter .children,
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter .children {
     background-color: var(--collaborate-mod-viewcounter-children-color);
+}
+
+nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
+    position: absolute;
+    right: 15px;
+    z-index: 1;
+    top: 9px;
+    display: block;
+    margin: 0px;
 }
 
 /* integration for "structure" plugin > show on right side of overlay */

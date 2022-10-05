@@ -5,6 +5,7 @@ namespace Collaborate;
 use Ratchet\ConnectionInterface;
 use rex_article;
 use rex_clang;
+use rex_user;
 use rex_yrewrite;
 
 /**
@@ -85,7 +86,6 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                 continue;
             }
 
-
             foreach (rex_yrewrite::getPathsByDomain($domain->getName()) as $article_id => $path) {
                 foreach ($domain->getClangs() as $clang_id) {
                     if (!rex_clang::get($clang_id)->isOnline()) {
@@ -121,7 +121,25 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
         if(count($beUsers) > 0) {
             // send to backend users watching page "structure"
             foreach($beUsers as $beUser) {
-                if(isset($beUser['data']['page']['path']) && $beUser['data']['page']['path'] == 'structure') {
+                // TODO: when connection is stored as backend-user > create user object and save it there
+                $beUserLogin = $this->app->getLoginForConnection($beUser['connection']);
+
+                if(is_null($beUserLogin)) {
+                    continue;
+                }
+
+                rex_user::clearInstance('login_' . $beUserLogin);
+                $beUserObject = rex_user::forLogin($beUserLogin);
+
+                // if user visits structure page and is allowed to do that and has perm to see viewcounter stats there OR user is allowed to see global counter
+                if($beUserObject->getComplexPerm('structure')->hasStructurePerm() &&
+                    (
+                        ($beUserObject->hasPerm("collaborate[viewcounter_structure]") &&
+                         isset($beUser['data']['page']['path']) &&
+                         $beUser['data']['page']['path'] == 'structure'
+                        ) || $beUserObject->hasPerm("collaborate[viewcounter_global]")
+                    )
+                ) {
                     $this->app->sendDataDedicated(
                         $beUser['connection'],
                         ["viewcount" => $viewCountData],
@@ -145,14 +163,28 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
      * @created 28.09.2022
      */
     private function sendViewcountToBackenduser(ConnectionInterface &$client) {
-        $viewCountData = $this->collectViewCountData();
+        $beUserLogin = $this->app->getLoginForConnection($client);
 
-        $this->app->sendDataDedicated(
-            $client,
-            ["viewcount" => $viewCountData],
-            true,
-            true
-        );
+        if(is_null($beUserLogin)) {
+            return;
+        }
+
+        rex_user::clearInstance('login_' . $beUserLogin);
+        $beUserObject = rex_user::forLogin($beUserLogin);
+
+        // if user visits structure page and is allowed to do that and has perm to see viewcounter stats there OR user is allowed to see global counter
+        if($beUserObject->getComplexPerm('structure')->hasStructurePerm() &&
+            ($beUserObject->hasPerm("collaborate[viewcounter_structure]") || $beUserObject->hasPerm("collaborate[viewcounter_global]"))
+        ) {
+            $viewCountData = $this->collectViewCountData();
+
+            $this->app->sendDataDedicated(
+                $client,
+                ["viewcount" => $viewCountData],
+                true,
+                true
+            );
+        }
     }
 
     /**
@@ -210,6 +242,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                                 continue;
                             }
 
+                            // create empty structure for current path element
                             if(!isset($viewCountData[$parentId])) {
                                 $viewCountData[$parentId] = [];
 
@@ -219,6 +252,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                                 }
                             }
 
+                            // counting
                             if($data['count_'.$article->getClangId()] > 0) {
                                 $viewCountData[$parentId]['children_'.$article->getClangId()] += $data['count_'.$article->getClangId()];
 //                                CollaborateApplication::echo(sprintf("adding +%s to children for parent article %s (base article id: %s) | clang %s",
@@ -227,11 +261,6 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                             }
                         }
                     }
-                } elseif(in_array($articleId, $path) && $path[count($path) - 1] != $articleId && $data['count_'.$article->getClangId()] > 0) {
-                    $data['children_'.$article->getClangId()] += $data['count_'.$article->getClangId()];
-//                    CollaborateApplication::echo(sprintf("adding +%s to children for article %s (path: %s) | clang %s",
-//                        $data['count_'.$article->getClangId()], $articleId, serialize($path), $article->getClangId()
-//                    ));
                 }
             }
         }
@@ -294,7 +323,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
     }
 
     /**
-     * provide data to incoming baxckend users visiting structure-pages
+     * provide data to incoming backend users visiting structure-pages
      * @param mixed $data
      * @param ConnectionInterface $client
      * @return void

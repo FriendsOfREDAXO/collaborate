@@ -28,4 +28,5 @@ collaborate_activity_blocked_back = zurück zur Übersicht
 
 # ERRORS
 collaborate_error_install_daemon_config = Die init.d-Konfigurationsdatei fehlt. Installation abgebrochen.
+collaborate_error_install_logrotate_config = Die logrotate-Konfigurationsdatei fehlt. Installation abgebrochen.
 collaborate_error_install_supervisor_config = Die supervisor-Konfigurationsdatei fehlt. Installation abgebrochen.

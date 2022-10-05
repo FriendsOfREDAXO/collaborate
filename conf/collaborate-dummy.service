@@ -1,17 +1,20 @@
 # ---- Collaborate REDAXO AddOn Daemon Config ----
 #
-# Install: sudo ln -s ##COLLABORATE_SCRIPT_PATH## /etc/systemd/system/##FOO##.service
-# Run: sudo systemctl start ##FOO##.service
-# Stop: sudo systemctl stop ##FOO##.service
+# Install: sudo ln -s ##COLLABORATE_SCRIPT_PATH## /etc/systemd/system/##COLLABORATE_BASENAME##.service
+# Run: sudo systemctl start ##COLLABORATE_BASENAME##.service
+# Stop: sudo systemctl stop ##COLLABORATE_BASENAME##.service
+#
+# ---- Collaborate Log Rotate Config ---
+# Set symlink: sudo ln -s ##COLLABORATE_LOGROTATE_PATH## /etc/logrotate.d/##COLLABORATE_BASENAME##
 
 [Unit]
-Description=Collaborate WebSocket Service [Project ##PROJECT##]
+Description=Collaborate WebSocket Service [Project ##COLLABORATE_PROJECT##]
 
 [Service]
 User=root
 Type=simple
 TimeoutSec=0
-PIDFile=/var/run/##FOO##.pid
+PIDFile=/var/run/##COLLABORATE_BASENAME##.pid
 ExecStart=/usr/bin/php ##COLLABORATE_INIT_SCRIPT_PATH##
 KillMode=process
 StandardOutput=append:##COLLABORATE_LOG_PATH##

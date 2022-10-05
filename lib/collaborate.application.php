@@ -573,6 +573,7 @@ class CollaborateApplication implements MessageComponentInterface {
         }
     
         if(!is_null($fromUser)) {
+            rex_user::clearInstance('login_' . $fromUser);
             $fromUserObject = rex_user::forLogin($fromUser);
         }
 

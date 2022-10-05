@@ -69,8 +69,8 @@ class Collaborate {
         // set page
         // this.onPageLoad();
 
-        this.header = $(".collaborate.header-box");
-        this.header = (!this.header.length ? null : this.header);
+        _self.header = $(".collaborate.header-box");
+        _self.header = (!this.header.length ? null : this.header);
 
         // header specials
         if(_self.header != null) {
@@ -133,7 +133,10 @@ class Collaborate {
             _self.websocket.close(3001);
         }
 
-        this.header.attr("data-status", 'CONNECTING');
+        if(this.header != null) {
+            this.header.attr("data-status", 'CONNECTING');
+        }
+
         this.websocket = new WebSocket(basePath);
 
         // set event handlers

@@ -28,4 +28,5 @@ collaborate_activity_blocked_back = back to overview
 
 # ERRORS
 collaborate_error_install_daemon_config = The init.d configuration file is missing. Installation aborted.
+collaborate_error_install_logrotate_config = The logrotate configuration file is missing. Installation aborted.
 collaborate_error_install_supervisor_config = The supervisor configuration file is missing. Installation aborted.

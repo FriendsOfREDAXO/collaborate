@@ -4,7 +4,6 @@
 rex_perm::register("collaborate[]", "zeigt Infobox im Header, mit Anzahl derzeit eingeloggter Backend-Nutzer", rex_perm::EXTRAS);
 rex_perm::register("collaborate[users]", "Infobox ausklappbar; zeigt an, welche Backend-Nutzer konkret online sind und seit wann", rex_perm::EXTRAS);
 rex_perm::register("collaborate[user_locations]", "zeigt an, welche Nutzer in welchen Sektionen (1-n) unterwegs sind und auch wie viele Tabs/Fenster sie geöffnet haben", rex_perm::EXTRAS);
-//rex_perm::register("collaborate[user_details]", "zeigt z.B. bei Nutzung des YForm Plugins, wer genau welchen Datensatz (ID) bearbeitet und ggf. wie lange schon", rex_perm::EXTRAS);
 //rex_perm::register("collaborate[supervisor]", "sehr hohes Recht, bei dem man von Sperren beim Betreten von Artikeln oder YForm-Datensätzen nicht betroffen ist und andere Nutzer dies nicht mitbekommen", rex_perm::EXTRAS);
 
 $beUser = rex::getUser();

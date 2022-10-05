@@ -1,2 +1,3 @@
 # viewcounter
-collaborate_counter_column = Views
+collaborate_counter_tooltip = current views of this article in frontend
+collaborate_counter_all_tooltip = current views in frontend
