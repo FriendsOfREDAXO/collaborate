@@ -331,9 +331,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
      * @created 29.09.2022
      */
     public function onEnteredPage(mixed &$data, ConnectionInterface &$client) {
-        if($data->page->path == "structure" && isset($data->user)) {
-            $this->sendViewcountToBackenduser($client);
-        }
+        $this->sendViewcountToBackenduser($client);
     }
 
     /**
