@@ -242,6 +242,7 @@ Collaborate basiert auf [Ratchet](https://github.com/ratchetphp/Ratchet) von [Ch
 * sinnloses Zustellen an verschiedene Connections desselben Clients (bei 3 offenen Tabs 2 unnötige Messages, weil für jedes Tab
   ein weiterer Messageblock generiert wird > Bug)
 * Test, ob dynamisches Einbinden von aktualisierten Plugin-Files oder neu hinzu gekommenen Plugins wirklich funktioniert
+* Beim zyklischen Plugin-Check deaktivierte/deinstallierte/verwaiste Plugins entfernen
 * Plugin-Vorlage: `mixed` konsequent durch `?object` ersetzen, vorher prüfen, wie stabil das ist
 * `downstream-scope` und `upstream-scope` Flags in package.yml korrekt und fertig implementieren (auto-include im Backend via boot.php)
 * `yform`-Plugin:
@@ -252,11 +253,9 @@ Collaborate basiert auf [Ratchet](https://github.com/ratchetphp/Ratchet) von [Ch
 * `structure`
   * Sperre pro clang (nicht generell über alle Sprachen) 
 * `structure` + `yform` Plugins:
-  * "übernehmen" Szenario ohne on/off/on Geflicker bei gesperrter Detail-View (nice2have)
-  * wenn in Detailansicht geblockt > nach Wiederfreigabe Seite neuladen um auf aktuellem Stand zu sein
+  * wenn in Detailansicht geblockt > nach Wiederfreigabe Seite neu laden, um auf aktuellem Stand zu sein
 * `viewcounter`
   * Handling für verwaiste Frontend-Connections einbauen > created Timestamp ergänzen und globale Ablaufzeit festlegen
   * evtl. Flag/Methode für das Resetten aller FE-Verbindungen einbauen (über Easter-Egg oder Console aufrufbar) > cleart FE Client Stack
     auf Serverseite und löscht alle Bubbles in structure View (Clientseite)
-  * Bug: zählt teilweise falsch (children)
   * Url-AddOn berücksichtigen > Pfade von Landing Pages auf Hauptartikel umbuchen
