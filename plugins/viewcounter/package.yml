@@ -1,5 +1,5 @@
 package: collaborate/viewcounter
-version: '1.1.0'
+version: '1.2.0'
 author: Friends Of REDAXO
 pjax: true
 
@@ -8,10 +8,11 @@ requires:
         structure: '>=2.14'
         yrewrite: '>=2.9'
 
-# defines scopes for websocket up- and down streams
-# 2 = frontend & backend
-# 1 = frontend
-# 0 = backend
-# -1 = no automatic embedding
-upstream-scope: 1
-downstream-scope: 0
+default_config:
+    # defines scopes for websocket up- and down streams
+    # 2 = frontend & backend
+    # 1 = frontend
+    # 0 = backend
+    # -1 = no automatic embedding
+    upstream_scope: 1
+    downstream_scope: 0

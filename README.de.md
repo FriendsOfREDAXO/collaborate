@@ -153,13 +153,14 @@ Plugin-Assets:
 Die Konfiguration der package.yml selbst ist dann wie folgt vorzunehmen:
 
 ```
-# defines scopes for websocket up- and down streams
-# 2 = frontend & backend
-# 1 = frontend
-# 0 = backend
-# -1 = no automatic embedding
-upstream-scope: 1
-downstream-scope: 0
+default_config:
+  # defines scopes for websocket up- and down streams
+  # 2 = frontend & backend
+  # 1 = frontend
+  # 0 = backend
+  # -1 = no automatic embedding
+  upstream_scope: 1
+  downstream_scope: 0
 ```
 
 ### Server
@@ -244,7 +245,7 @@ Collaborate basiert auf [Ratchet](https://github.com/ratchetphp/Ratchet) von [Ch
 * Test, ob dynamisches Einbinden von aktualisierten Plugin-Files oder neu hinzu gekommenen Plugins wirklich funktioniert
 * Beim zyklischen Plugin-Check deaktivierte/deinstallierte/verwaiste Plugins entfernen
 * Plugin-Vorlage: `mixed` konsequent durch `?object` ersetzen, vorher prüfen, wie stabil das ist
-* `downstream-scope` und `upstream-scope` Flags in package.yml korrekt und fertig implementieren (auto-include im Backend via boot.php)
+* `downstream_scope` und `upstream_scope` Flags in package.yml korrekt und fertig implementieren (auto-include im Backend via boot.php)
 * `yform`-Plugin:
   * Kollisionen serverseitig vermeiden (First come first served)
 * Doku für AddOn generell verbessern + für Plugins überhaupt erst schreiben 

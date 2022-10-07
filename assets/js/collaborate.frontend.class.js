@@ -7,8 +7,8 @@ class Collaborate {
     // vars
     debug = true;
     page = null;
-    tabid = null;
     userid = null;
+    tabid = null;
     plugins = [];
 
     // storing latest received status from server
@@ -22,34 +22,24 @@ class Collaborate {
      */
     constructor(config = {}) {
         // check if initialised
-        if($("html").hasClass("collaborate-init")) {
+        if($("html").hasClass("collaborate-init") || typeof(collaborate_userid) == "undefined") {
             return;
         }
 
         $("html").addClass("collaborate-init")
         let _self = this;
 
-        // store tab id on close
-        $(window).bind("unload.collaborate beforeunload.collaborate", function (e) {
-            window.sessionStorage.tabid = _self.tabid;
+        $(window).bind("beforeunload.collaborate", function (e) {
             // send close
             _self.send('PAGE_CLOSE');
             // suppress prompt
             return undefined;
         });
 
-        // set tab id
-        if (typeof(window.sessionStorage.tabid) != "undefined" && parseInt(window.sessionStorage.tabid)) {
-            _self.tabid = window.sessionStorage.tabid;
-            window.sessionStorage.removeItem("tabid");
-        } else {
-            _self.tabid = Math.floor(Math.random() * 10000000);
-        }
+        this.userid = collaborate_userid;
 
-        // set unique identifier
-        this.userid = collaborateGetUserId();
-
-        // connect
+        // set random tab id since german TTDSG does not allow consent-free access to local/session storage!
+        this.tabid = Math.floor(Math.random() * 10000000);
         this.connect();
     }
 
@@ -162,8 +152,8 @@ class Collaborate {
 
         // add base data
         data.type = type;
-        data.tabid = _self.tabid;
         data.userid = _self.userid;
+        data.tabid = _self.tabid;
 
         setTimeout(async function () {
             if (_self.websocket == null) {
@@ -277,17 +267,4 @@ function collaborateTimePad(val) {
     } else {
         return valString;
     }
-}
-
-/**
- * generate "unique" user id if not present
- * return if already set
- */
-function collaborateGetUserId() {
-    if(window.localStorage.getItem("collaborate.userid") == null) {
-        const blocks = new BigUint64Array(3);
-        window.localStorage.setItem("collaborate.userid", self.crypto.getRandomValues(blocks).join("."));
-    }
-
-    return window.localStorage.getItem("collaborate.userid");
 }

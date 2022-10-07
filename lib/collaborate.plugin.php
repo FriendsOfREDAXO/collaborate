@@ -92,7 +92,7 @@ abstract class CollaboratePlugin {
             isset($data->pluginhash) && $this->hash == $data->pluginhash
         ) {
             // finally check if addon config allows incoming frontend messages (and connections)
-            if((int)rex_plugin::get("collaborate", $this->name)->getConfig("upstream-scope", -1) >= 1 ) {
+            if((int)rex_plugin::get("collaborate", $this->name)->getConfig("upstream_scope", -1) >= 1 ) {
                 // multiple plugins could mark a message as permitted > therefore it's an array
                 if(!isset($data->permitted)) {
                     $data->permitted = [];

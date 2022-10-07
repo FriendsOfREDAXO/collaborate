@@ -277,8 +277,6 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
     public function onBeforeMessage(mixed &$data, ConnectionInterface &$client) {
         if($data->type == 'PAGEVIEW' &&
             isset($data->userid) &&
-            preg_match("@\d+\.\d+\.\d+@", $data->userid) &&
-            isset($data->tabid) &&
             isset($data->page->plugin) &&
             $data->page->plugin == 'viewcounter'
         ) {
@@ -287,7 +285,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                 $this->frontendClients[$data->userid] = [
                     $data->page->path->origin . $data->page->path->pathname => array_merge(
                         (array)$data->page,
-                        ['tabid' => $data->tabid, 'created' => microtime(true), 'connection' => $client]
+                        ['created' => microtime(true), 'connection' => $client]
                     )
                 ];
             }
@@ -307,7 +305,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                 if(!$pageVisited) {
                     $this->frontendClients[$data->userid][$data->page->path->origin . $data->page->path->pathname] = array_merge(
                         (array)$data->page,
-                        ['tabid' => $data->tabid, 'created' => microtime(true), 'connection' => $client]
+                        ['created' => microtime(true), 'connection' => $client]
                     );
                 }
             }
