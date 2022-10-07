@@ -91,7 +91,7 @@ $secureWebsocketsServer->loop->addPeriodicTimer(CollaborateApplication::REFRESH_
     $application->storeBackendUsers();
 
     if($formerUsers != count($application->getBackendUsers())) {
-        $application::echo("storing/updating backend user stack: found ".count($application->getBackendUsers().", before: ".$formerUsers));
+        $application::echo(sprintf("storing/updating backend user stack: found %s, before: %s", count($application->getBackendUsers()), $formerUsers));
     }
 });
 
