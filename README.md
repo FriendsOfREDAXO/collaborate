@@ -4,8 +4,8 @@
 
 Collaborate ist ein REDAXO Addon, welches primär entwickelt wurde, um **kollisionsfreie, parallele Zusammenarbeit** im Backend zu ermöglichen.
 Der Kern des AddOns ist ein unabhängig von der REDAXO-Instanz (als Website) arbeitender Dienst, der permanent läuft und einen **Websocket Server**
-zur Verfügung stellt. Das AddOn liefert  Plugins sollen dann die eigentlichen Features liefern und können via Callbacks und Event-Handler sowohl server-seitig (PHP)
-als auch client-seitig (JS)
+zur Verfügung stellt. Plugins liefern dann die eigentlichen Features und können via Callbacks und Event-Handler sowohl server-seitig (PHP)
+als auch client-seitig (JS) auf Aktionen von Backend- und Front-Nutzern reagieren.
 
 ## Installation
 
