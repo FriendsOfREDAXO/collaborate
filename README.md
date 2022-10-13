@@ -259,4 +259,3 @@ Collaborate basiert auf [Ratchet](https://github.com/ratchetphp/Ratchet) von [Ch
   * Handling für verwaiste Frontend-Connections einbauen > created Timestamp ergänzen und globale Ablaufzeit festlegen
   * evtl. Flag/Methode für das Resetten aller FE-Verbindungen einbauen (über Easter-Egg oder Console aufrufbar) > cleart FE Client Stack
     auf Serverseite und löscht alle Bubbles in structure View (Clientseite)
-  * Url-AddOn berücksichtigen > Pfade von Landing Pages auf Hauptartikel umbuchen

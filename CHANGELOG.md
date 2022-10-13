@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 1.1.2 – 13.10.2022
+--------------------------
+
+### Neu
+
+* Plugin "Viewcounter": Berücksichtigung des "Url"-AddOns > Counter zählt dann beim zugehörigen Artikel mit
+
 Version 1.1.0 – 05.10.2022
 --------------------------
 

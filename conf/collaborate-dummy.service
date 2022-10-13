@@ -5,7 +5,9 @@
 # Stop: sudo systemctl stop ##COLLABORATE_BASENAME##.service
 #
 # ---- Collaborate Log Rotate Config ---
+# !! ATTENTION: you need root user privileges to set owner of the target log config file !!
 # Set symlink: sudo ln -s ##COLLABORATE_LOGROTATE_PATH## /etc/logrotate.d/##COLLABORATE_BASENAME##
+# sudo chown root:root ##COLLABORATE_LOGROTATE_PATH##
 
 [Unit]
 Description=Collaborate WebSocket Service [Project ##COLLABORATE_PROJECT##]

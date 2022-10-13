@@ -25,9 +25,19 @@ if(!file_exists($dummyLogrotatePath)) {
 }
 
 $logrotateConfigContent = rex_file::get($dummyLogrotatePath);
-rex_file::put($addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-logrotate.conf",
+$logrotateConfigFilePath = $addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-logrotate.conf";
+
+rex_file::put($logrotateConfigFilePath,
     str_replace("##COLLABORATE_LOG_PATH##", $addon->getDataPath("collaborate.log"), $logrotateConfigContent)
 );
+
+if(file_exists($logrotateConfigFilePath)) {
+    try {
+        chmod($logrotateConfigFilePath, 0644);
+    } catch(Exception $e){
+        echo $e->getMessage();
+    }
+}
 
 // set supervisord config
 $dummyConfigPath = $addon->getPath()."conf".DIRECTORY_SEPARATOR."collaborate-supervisor-dummy.conf";

@@ -7,6 +7,8 @@ use rex_article;
 use rex_clang;
 use rex_user;
 use rex_yrewrite;
+use rex_addon;
+use Url\Profile;
 
 /**
  * Class CollaboratePluginViewcounter
@@ -44,6 +46,12 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
     private array $articles = [];
 
     /**
+     * store array of url
+     * @var array
+     */
+    private array $urlEntries = [];
+
+    /**
      * @var int
      */
     private int $lastSendDataTimestamp = 0;
@@ -79,7 +87,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
      */
     private function refreshArticleList() {
         $domains = rex_yrewrite::getDomains();
-        $this->articles = [];
+        $this->articles = $this->urlEntries = [];
 
         foreach($domains as $key => $domain) {
             if($key == "default") {
@@ -96,6 +104,25 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
 
                     if ($article && ($article_id != $domain->getNotfoundId() || $article_id == $domain->getStartId())) {
                         $this->articles[$domain->getUrl().$path[$clang_id]] = $article;
+                    }
+                }
+            }
+        }
+
+        // include url addon stuff
+        if(rex_addon::get("url")->isAvailable()) {
+            $profiles = Profile::getAll();
+
+            if ($profiles) {
+                foreach ($profiles as $profile) {
+                    $profileUrls = $profile->getUrls();
+
+                    if (!$profileUrls) {
+                        continue;
+                    }
+
+                    foreach ($profileUrls as $profileUrl) {
+                        $this->urlEntries[$profileUrl->getUrl()->withSolvedScheme()->toString()] = $profileUrl;
                     }
                 }
             }
@@ -219,6 +246,24 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                 }
 
                 $viewCountData[$this->articles[$pageUrl]->getId()]['count_'.$this->articles[$pageUrl]->getClangId()][$userId] = true;
+            }
+
+            // check url addon stuff
+            if(rex_addon::get("url")->isAvailable() && count($this->urlEntries) && isset($this->urlEntries[$pageUrl])) {
+                $article = rex_article::get($this->urlEntries[$pageUrl]->getArticleId(), $this->urlEntries[$pageUrl]->getClangId());
+
+                if(!is_null($article)) {
+                    if(!isset($viewCountData[$this->urlEntries[$pageUrl]->getArticleId()])) {
+                        $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()] = [];
+
+                        foreach($clangs as $clang) {
+                            $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['count_'.$clang->getId()] = [];
+                            $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['children_'.$clang->getId()] = 0;
+                        }
+                    }
+
+                    $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['count_'.$this->urlEntries[$pageUrl]->getClangId()][$userId] = true;
+                }
             }
         }
 
