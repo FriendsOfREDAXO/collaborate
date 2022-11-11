@@ -249,20 +249,35 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
             }
 
             // check url addon stuff
-            if(rex_addon::get("url")->isAvailable() && count($this->urlEntries) && isset($this->urlEntries[$pageUrl])) {
-                $article = rex_article::get($this->urlEntries[$pageUrl]->getArticleId(), $this->urlEntries[$pageUrl]->getClangId());
-
-                if(!is_null($article)) {
-                    if(!isset($viewCountData[$this->urlEntries[$pageUrl]->getArticleId()])) {
-                        $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()] = [];
-
-                        foreach($clangs as $clang) {
-                            $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['count_'.$clang->getId()] = [];
-                            $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['children_'.$clang->getId()] = 0;
-                        }
+            if(rex_addon::get("url")->isAvailable() && count($this->urlEntries)) {
+                foreach($pages as $pageUrl => $page) {
+                     // ignore unknown calls
+                    if(!isset($this->urlEntries[$pageUrl])) {
+                        continue;
                     }
 
-                    $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['count_'.$this->urlEntries[$pageUrl]->getClangId()][$userId] = true;
+                    $article = rex_article::get($this->urlEntries[$pageUrl]->getArticleId(), $this->urlEntries[$pageUrl]->getClangId());
+
+                    if(!is_null($article)) {
+                        if(!isset($viewCountData[$this->urlEntries[$pageUrl]->getArticleId()])) {
+                            $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()] = ['url_addon' => []];
+
+                            foreach($clangs as $clang) {
+                                $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['count_'.$clang->getId()] = [];
+                                $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['children_'.$clang->getId()] = 0;
+                            }
+                        }
+
+                        if(!isset($viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['url_addon'][$this->urlEntries[$pageUrl]->getProfileId()])) {
+                            $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['url_addon'][$this->urlEntries[$pageUrl]->getProfileId()] = [];
+                        }
+                        if(!isset($viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['url_addon'][$this->urlEntries[$pageUrl]->getProfileId()][$this->urlEntries[$pageUrl]->getDatasetId()])) {
+                            $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['url_addon'][$this->urlEntries[$pageUrl]->getProfileId()][$this->urlEntries[$pageUrl]->getDatasetId()] = [];
+                        }
+
+                        $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['count_'.$this->urlEntries[$pageUrl]->getClangId()][$userId] = true;
+                        $viewCountData[$this->urlEntries[$pageUrl]->getArticleId()]['url_addon'][$this->urlEntries[$pageUrl]->getProfileId()][$this->urlEntries[$pageUrl]->getDatasetId()][$userId] = true;
+                    }
                 }
             }
         }
@@ -272,7 +287,18 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
             foreach($clangs as $clang) {
                 $data['count_'.$clang->getId()] = count($data['count_'.$clang->getId()]);
             }
+
+            // compress url data
+            if(isset($data["url_addon"])) {
+                foreach($data["url_addon"] as $profileId => $urlDataset) {
+                    foreach($urlDataset as $datasetId => $userIds) {
+                        $data["url_addon"][$profileId][$datasetId] = count($userIds);
+                    }
+                }
+            }
         }
+
+        print_r($viewCountData);
 
         // collect data for child articles
         foreach($viewCountData as $articleId => &$data) {

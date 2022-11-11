@@ -38,16 +38,18 @@ if(count($plugins) > 0) {
 
     // add ip as id
     if($setUserId) {
-        $out .= "<script type=\"text/javascript\">let collaborate_userid = '".sha1(
-            isset($_SERVER['HTTP_CLIENT_IP']) ?:
-            isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?:
-            isset($_SERVER['HTTP_X_FORWARDED']) ?:
-            isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) ?:
-            isset($_SERVER['HTTP_FORWARDED_FOR']) ?:
-            isset($_SERVER['HTTP_FORWARDED']) ?:
-            isset($_SERVER['REMOTE_ADDR']) ?:
-            microtime()
-        )."';</script>";
+        $baseValue =
+            ($_SERVER['HTTP_CLIENT_IP'] ??
+                ($_SERVER['HTTP_X_FORWARDED_FOR'] ??
+                    ($_SERVER['HTTP_X_FORWARDED'] ??
+                        ($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'] ??
+                            ($_SERVER['HTTP_FORWARDED_FOR'] ??
+                                ($_SERVER['HTTP_FORWARDED'] ??
+                                    ($_SERVER['REMOTE_ADDR'] ??
+                                        microtime()
+            )))))));
+
+        $out .= "<script type=\"text/javascript\">let collaborate_userid = '".sha1($baseValue)."';</script>";
     }
 }
 

@@ -1,10 +1,11 @@
 package: collaborate
-version: '1.1.2'
+version: '1.2.0'
 author: Friends Of REDAXO
 pjax: true
 supportpage: https://github.com/FriendsOfREDAXO/collaborate
 
 requires:
+    php: '>=8.0'
     redaxo: ^5.12
 
 console_commands:

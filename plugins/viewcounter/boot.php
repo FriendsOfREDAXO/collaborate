@@ -1,7 +1,7 @@
 <?php
 
-rex_perm::register("collaborate[viewcounter_structure]", "Viewcounter: Einsehen der einzelnen Live-Page-Views in der Strukturverwaltung", rex_perm::EXTRAS);
-rex_perm::register("collaborate[viewcounter_global]", "Viewcounter: Einsehen aller Live-Page-Views als Bubble am menüpunkt der Strukturverwaltung", rex_perm::EXTRAS);
+rex_perm::register("collaborate[viewcounter_structure]", "Viewcounter: Einsehen der einzelnen Live-Page-Views in der Strukturverwaltung & Url-AddOn", rex_perm::EXTRAS);
+rex_perm::register("collaborate[viewcounter_global]", "Viewcounter: Einsehen aller Live-Page-Views als Bubble am Menüpunkt von Strukturverwaltung & Url-AddOn", rex_perm::EXTRAS);
 
 // plugin is mixed: public users collect data (their visits) and backend users see them counted
 // frontend stuff is added via RE_VAR

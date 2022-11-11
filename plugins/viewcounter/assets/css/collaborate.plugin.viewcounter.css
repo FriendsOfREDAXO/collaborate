@@ -15,7 +15,9 @@ body#rex-page-structure section.rex-page-section table.table tbody tr {
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter,
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter,
-nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
+body#rex-page-url-generator-profiles section.rex-page-section form > table.table tbody td table.table.small tbody tr:first-child td:first-of-type span.collaborate-viewcounter,
+body#rex-page-url-generator-urls section.rex-page-section table.table tbody td[data-title='Id des Datensatz'] span.collaborate-viewcounter,
+nav.rex-nav-main-navigation span.collaborate-global-viewcounter {
     display: inline-block;
     vertical-align: middle;
     text-align: center;
@@ -34,7 +36,10 @@ nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *,
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > *,
-nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
+body#rex-page-url-generator-profiles section.rex-page-section form > table.table tbody td table.table.small tbody tr:first-child td:first-of-type span.collaborate-viewcounter > *,
+body#rex-page-url-generator-urls section.rex-page-section table.table tbody td[data-title='Id des Datensatz'] span.collaborate-viewcounter > *,
+
+nav.rex-nav-main-navigation span.collaborate-global-viewcounter {
     padding: 0px 7px;
     display: inline-block;
     vertical-align: top;
@@ -44,13 +49,17 @@ nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter > *:empty,
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter > *:empty,
-nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter:empty {
+body#rex-page-url-generator-profiles section.rex-page-section form > table.table tbody td table.table.small tbody tr:first-child td:first-of-type span.collaborate-viewcounter > *:empty,
+body#rex-page-url-generator-urls section.rex-page-section table.table tbody td[data-title='Id des Datensatz'] span.collaborate-viewcounter > *:empty,
+nav.rex-nav-main-navigation span.collaborate-global-viewcounter:empty {
     display: none;
 }
 
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-category span.collaborate-viewcounter .this,
 body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status td.rex-table-article-name span.collaborate-viewcounter .this,
-nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
+body#rex-page-url-generator-profiles section.rex-page-section form > table.table tbody td table.table.small tbody tr:first-child td:first-of-type span.collaborate-viewcounter .this,
+body#rex-page-url-generator-urls section.rex-page-section table.table tbody td[data-title='Id des Datensatz'] span.collaborate-viewcounter .this,
+nav.rex-nav-main-navigation span.collaborate-global-viewcounter {
     background-color: var(--collaborate-mod-viewcounter-main-color);
 }
 
@@ -59,7 +68,7 @@ body#rex-page-structure section.rex-page-section table.table tbody tr.rex-status
     background-color: var(--collaborate-mod-viewcounter-children-color);
 }
 
-nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure span.collaborate-global-viewcounter {
+nav.rex-nav-main-navigation span.collaborate-global-viewcounter {
     position: absolute;
     right: 15px;
     z-index: 1;

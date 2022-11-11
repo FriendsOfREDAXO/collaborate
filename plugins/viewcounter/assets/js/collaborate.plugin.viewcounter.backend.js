@@ -3,6 +3,7 @@
  */
 class CollaboratePluginViewcounterBackend extends CollaboratePlugin {
     globalCounter = null;
+    urlGlobalCounter = null;
 
     /**
      * init / constructor
@@ -14,6 +15,7 @@ class CollaboratePluginViewcounterBackend extends CollaboratePlugin {
         if(rex.collaborate_perm_viewcounter_global) {
             let $structureNav = $("nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-structure");
 
+            // structure addon menu point
             if($structureNav.length) {
                 this.globalCounter = $structureNav.children(".collaborate-global-viewcounter");
 
@@ -21,6 +23,19 @@ class CollaboratePluginViewcounterBackend extends CollaboratePlugin {
                 if(!this.globalCounter.length) {
                     this.globalCounter = $('<span class="collaborate-global-viewcounter" title="'+ CollaborateI18N.plugin_viewcounter.counter_all_tooltip +'"></span>');
                     this.globalCounter.appendTo($structureNav);
+                }
+            }
+
+            // url addon menu point
+            let $urlNav = $("nav.rex-nav-main-navigation ul.rex-nav-main-list li#rex-navi-page-url");
+
+            if($urlNav.length) {
+                this.urlGlobalCounter = $urlNav.children(".collaborate-global-viewcounter");
+
+                // create viewcounter wrapper
+                if(!this.urlGlobalCounter.length) {
+                    this.urlGlobalCounter = $('<span class="collaborate-global-viewcounter" title="'+ CollaborateI18N.plugin_viewcounter.counter_all_tooltip +'"></span>');
+                    this.urlGlobalCounter.appendTo($urlNav);
                 }
             }
         }
@@ -73,9 +88,81 @@ class CollaboratePluginViewcounterBackend extends CollaboratePlugin {
                             else if(data[entityId]["count_" + collaborate_viewcounter_clang] > 0) {
                                 $viewcounter.children(".this").text(data[entityId]["count_" + collaborate_viewcounter_clang]);
                             }
-                        } else {
+                        }
+                        // clear when there is no data for this entity
+                        else {
                             $viewcounter.children().text("");
                         }
+                    });
+                }
+
+                // url profiles > show bubbles
+                if(rex.collaborate_perm_viewcounter_structure && $("body#rex-page-url-generator-profiles").length) {
+                    let $profileRows = $("section.rex-page-section form > table.table > tbody > tr");
+
+                    $profileRows.each(function(idx) {
+                        let $keyCell = $(this).children("td:nth-child(2)").find("div.row table.table.small").first().find("tbody tr td code");
+                        let urlProfileId = $(this).children("td.rex-table-icon").children("a").attr("href").match(/&id=(\d+)/)[1];
+                        let $viewcounter = $keyCell.next(".collaborate-viewcounter");
+                        let countProfileCalls = 0;
+
+                        // create viewcounter wrapper
+                        if(!$viewcounter.length) {
+                            $viewcounter = $(
+                                '<span class="collaborate-viewcounter" title="'+ CollaborateI18N.plugin_viewcounter.counter_tooltip +'">' +
+                                    '<span class="this"></span>' +
+                                '</span>'
+                            );
+                            $viewcounter.appendTo($keyCell.parent());
+                        }
+
+                        for(let articleId in data) {
+                            if(typeof(data[articleId].url_addon) == "undefined") {
+                                continue;
+                            }
+
+                            if(typeof(data[articleId].url_addon[urlProfileId]) != "undefined") {
+                                for(let urlDatasetId in data[articleId].url_addon[urlProfileId]) {
+                                    countProfileCalls += data[articleId].url_addon[urlProfileId][urlDatasetId];
+                                }
+                            }
+                        }
+
+                        $viewcounter.children().text(countProfileCalls > 0 ? countProfileCalls : '');
+                    });
+                }
+
+                // url entries > show bubbles
+                if(rex.collaborate_perm_viewcounter_structure && $("body#rex-page-url-generator-urls").length) {
+                    let $rows = $("table.table tbody tr");
+
+                    $rows.each(function(idx) {
+                        let $idCol = $(this).children("td[data-title='Id des Datensatz']");
+                        let urlProfileId = $(this).children("td[data-title='Profil']").text();
+                        let urlArticleId = $(this).children("td[data-title='Artikel']").find("a small").text().replace("(", "").replace(")", "");
+
+                        if(typeof(data[urlArticleId]) == "undefined") {
+                            return;
+                        }
+
+                        let urlDatasetId = $idCol[0].innerText;
+                        let $viewcounter = $idCol.children(".collaborate-viewcounter");
+
+                        // create viewcounter wrapper
+                        if(!$viewcounter.length) {
+                            $viewcounter = $(
+                                '<span class="collaborate-viewcounter" title="'+ CollaborateI18N.plugin_viewcounter.counter_tooltip +'">' +
+                                    '<span class="this"></span>' +
+                                '</span>'
+                            );
+                            $viewcounter.appendTo($idCol);
+                        }
+
+                        $viewcounter.children().text(
+                            typeof(data[urlArticleId].url_addon[urlProfileId][urlDatasetId]) != "undefined" ?
+                            data[urlArticleId].url_addon[urlProfileId][urlDatasetId] :
+                            ''
+                        );
                     });
                 }
 
@@ -93,7 +180,57 @@ class CollaboratePluginViewcounterBackend extends CollaboratePlugin {
 
                     this.globalCounter.text(globalCount == 0 ? '' : globalCount);
                 }
+
+                // url addon view counter
+                if(rex.collaborate_perm_viewcounter_global && this.urlGlobalCounter != null) {
+                    let urlGlobalCount = 0;
+
+                    for(let articleId in data) {
+                        if(typeof(data[articleId].url_addon) != "undefined") {
+                            for(let urlProfileId in data[articleId].url_addon) {
+                                for(let urlDatasetId in data[articleId].url_addon[urlProfileId]) {
+                                    urlGlobalCount += data[articleId].url_addon[urlProfileId][urlDatasetId];
+                                }
+                            }
+                        }
+                    }
+
+                    this.urlGlobalCounter.text(urlGlobalCount == 0 ? '' : urlGlobalCount);
+                }
             }
+        }
+    }
+
+    /**
+     * reset/remove all counters on disconnect
+     * @param event
+     */
+    onClose(event) {
+        super.onClose(event);
+
+        // structure tables > clear bubbles
+        if(rex.collaborate_perm_viewcounter_structure && $("body#rex-page-structure").length) {
+            let $rows = $("table.table tbody tr.rex-status");
+
+            $rows.each(function(idx) {
+                let $idCol = $(this).children("td.rex-table-id");
+                let $viewcounter = $idCol.next().children(".collaborate-viewcounter");
+
+                // clear viewcounter
+                if($viewcounter.length) {
+                    $viewcounter.children().text("");
+                }
+            });
+        }
+
+        // global view counter
+        if(rex.collaborate_perm_viewcounter_global && this.globalCounter != null) {
+            this.globalCounter.text('');
+        }
+
+        // url addon view counter
+        if(rex.collaborate_perm_viewcounter_global && this.urlGlobalCounter != null) {
+            this.urlGlobalCounter.text('');
         }
     }
 }

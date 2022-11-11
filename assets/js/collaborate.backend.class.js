@@ -160,6 +160,10 @@ class Collaborate {
                 // provide current page
                 _self.onPageLoad();
             });
+
+            for (let plugin of _self.plugins) {
+                plugin.onOpen(e);
+            }
         };
 
         _self.websocket.onerror = function(e) {
@@ -535,6 +539,7 @@ class CollaboratePlugin {
     onMessage(event) {}
     onPopupUserDetails(userdata, userLocations) { return userLocations; }
     onError(event) {}
+    onOpen(event) {}
     onClose(event) {}
     onPageLoad(page, pageChanged = false, forceUpdate = false) {
         return true;

@@ -54,7 +54,7 @@ $server->on('error', function (Exception $e) {
 // NOTE: IP is hidden if you route proxypass internally (than it's 127.0.0.1 or 0.0.0.0 for all clients)
 $server->on('connection', function (ConnectionInterface $connection) {
     //var_dump(stream_context_get_params($connection->stream)); // ->httpRequest->getUri()->getQuery()
-    //echo 'Secure connection from ' . $connection->getRemoteAddress() . PHP_EOL;
+//    echo 'Secure connection from ' . $connection->getRemoteAddress() . " - PHP: ".phpversion().PHP_EOL;
 });
 
 $secureWebsocketsServer = new IoServer($httpServer, $server, $loop);
