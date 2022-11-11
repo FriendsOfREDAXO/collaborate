@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 1.2.1 – 11.11.2022
+--------------------------
+
+#### Bugfixes
+
+* Debug-Ausgabe gelöscht und Menge an Log-Einträgen für FE-Besucher reduziert
+
 Version 1.2.0 – 11.11.2022
 --------------------------
 

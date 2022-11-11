@@ -170,7 +170,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                     $this->app->sendDataDedicated(
                         $beUser['connection'],
                         ["viewcount" => $viewCountData],
-                        true,
+                        false,
                         true
                     );
                 }
@@ -208,7 +208,7 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
             $this->app->sendDataDedicated(
                 $client,
                 ["viewcount" => $viewCountData],
-                true,
+                false,
                 true
             );
         }
@@ -297,8 +297,6 @@ class CollaboratePluginViewcounter extends CollaboratePlugin {
                 }
             }
         }
-
-        print_r($viewCountData);
 
         // collect data for child articles
         foreach($viewCountData as $articleId => &$data) {
